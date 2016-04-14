@@ -1,4 +1,3 @@
-
 /*---------------------------------------------------------------------
 
 EFERGY E2 CLASSIC RTL-SDR DECODER via rtl_fm
@@ -73,7 +72,7 @@ rtl_fm -f 433550000 -s 200000 -r 96000 -g 19.7 2>/dev/null | ./EfergyRPI_001
 #define FRAMEBITCOUNT		64	/* Number of bits for the entire frame (not including preamble) */
 
 
-#define LOGTYPE 	   1 // Allows changing line-endings - 0 is for Unix /n, 1 for Windows /r/n
+#define LOGTYPE 	   0 // Allows changing line-endings - 0 is for Unix /n, 1 for Windows /r/n
 #define SAMPLES_TO_FLUSH  10 // Number of samples taken before writing to file.
 			     // Setting this too low will cause excessive wear to flash due to updates to
 			     // filesystem! You have been warned! Set to 10 samples for 6 seconds = every min.
@@ -109,11 +108,12 @@ char buffer[80];
 	{
 		time( &ltime );
 		curtime = localtime( &ltime );
-		strftime(buffer,80,"%x,%X", curtime);
+		//strftime(buffer,80,"%x,%X", curtime);
+		strftime(buffer,80,"%d-%m-%Y %H:%M:%S", curtime);
 
 		current_adc = (bytes[4] * 256) + bytes[5];
 		result	= (VOLTAGE * current_adc) / ((double) 32768 / (double) pow(2,bytes[6]));
-		printf("%s,%f\n",buffer,result);
+		printf("%s %f\n",buffer,result);
 		if(loggingok) {
 		  if(LOGTYPE) {
 		    fprintf(fp,"%s,%f\r\n",buffer,result);
@@ -165,7 +165,7 @@ long center;
 	  loggingok=0;
 	}
 
-	printf("Efergy E2 Classic decode \n\n");
+	//printf("Efergy E2 Classic decode \n\n");
 
 
 	/* initialize variables */
