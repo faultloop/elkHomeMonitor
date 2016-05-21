@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Collect Efergy Electric Usage
+# elkHomeMonitor
+
+LOG_PATH="/var/log/elkHomeMonitor/"
+LOG_FILE="${LOG_PATH}electricUsage.log"
+
+rtl_fm -f 433550000 -s 200000 -r 96000 -g 19.7 2>/dev/null | /usr/local/bin/efergyMonitor > "$LOG_FILE"
