@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Checks connection to elasticsearch db on AWS
+# elkHomeMonitor
+
+curl -s --connect-timeout 15 -XGET https://faultloop.co.uk:8117/electric > /dev/null
+
+if [[ $? == 28 ]]
+then
+    logger "chkAwsNetwork - Connection Failed: Fixing"
+    /usr/local/bin/setAwsSecGrp
+else
+    exit
+fi
